@@ -13,7 +13,7 @@ class SearchScreen(ttk.Frame):
         self.rowconfigure(2, weight=1)       
         
         #entry search
-        self.search_value = tk.StringVar()
+        self.search_value = tk.StringVar() 
         
         self.search_entry = ttk.Entry(self, textvariable=self.search_value)
         self.search_entry.grid(row=0, column=0, sticky="NESW", padx=(5,5), pady=(5,5))

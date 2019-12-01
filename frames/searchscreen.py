@@ -7,11 +7,16 @@ class SearchScreen(ttk.Frame):
         
         self.controller = controller
         
+        #grid stuff
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=0)
+        self.rowconfigure(2, weight=1)       
+        
         #entry search
         self.search_value = tk.StringVar()
         
         self.search_entry = ttk.Entry(self, textvariable=self.search_value)
-        self.search_entry.pack(side="top", fill ="x")
+        self.search_entry.grid(row=0, column=0, sticky="NESW", padx=(5,5), pady=(5,5))
         self.search_entry.focus()        
         
         #search button
@@ -22,10 +27,10 @@ class SearchScreen(ttk.Frame):
                     cursor="hand2"
                 )
         
-        self.search_button.pack(fill ="x")
+        self.search_button.grid(columnspan=2, row=0, column=1, sticky="NESW", padx=(5,5), pady=(5,5))
         
         #separator
-        ttk.Separator(self, orient="horizontal").pack(side="top", fill ="x", pady=5)    
+        ttk.Separator(self, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5)) 
         
         #canvas
         self.canvas = tk.Canvas(self)
@@ -41,8 +46,8 @@ class SearchScreen(ttk.Frame):
         self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         
-        self.scrollbar.grid(row=0, column=1, sticky="NS")
-        self.canvas.grid(row=0, column=0, sticky="NSEW")
+        self.scrollbar.grid(row=2, column=2, sticky="NS")
+        self.canvas.grid(columnspan=2, row=2, column=0, sticky="NSEW")
         #bind enter
         #controller.bind("<Return>", self.exit)
         #controller.bind("<KP_Enter>", self.exit)

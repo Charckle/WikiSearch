@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from frames import Mainscreen, AddEntry, SearchScreen
+from frames import Mainscreen, AddEntry, SearchScreen, SearchResults
 
 
 class HDSearch(tk.Tk):

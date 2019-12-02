@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from frames.results_window import SearchResults
 
 class SearchScreen(ttk.Frame):
     def __init__(self, parent, controller):
@@ -33,6 +34,10 @@ class SearchScreen(ttk.Frame):
         ttk.Separator(self, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5)) 
         
         #canvas
+        self.results_frame = SearchResults(self)
+        self.results_frame.grid(columnspan=2, row=2, column=0, sticky="NSEW")
+        
+        '''
         self.canvas = tk.Canvas(self)
         self.scrollable_frame = ttk.Frame(self.canvas)
         
@@ -48,6 +53,7 @@ class SearchScreen(ttk.Frame):
         
         self.scrollbar.grid(row=2, column=2, sticky="NS")
         self.canvas.grid(columnspan=2, row=2, column=0, sticky="NSEW")
+        '''
         #bind enter
         #controller.bind("<Return>", self.exit)
         #controller.bind("<KP_Enter>", self.exit)

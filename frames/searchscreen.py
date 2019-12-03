@@ -3,10 +3,12 @@ from tkinter import ttk
 from frames.results_window import SearchResults
 
 class SearchScreen(ttk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, show_viewentry):
         super().__init__(parent)
         
         self.controller = controller
+        
+        self.show_entry = show_viewentry
         
         #grid stuff
         self.columnconfigure(0, weight=1)
@@ -18,13 +20,13 @@ class SearchScreen(ttk.Frame):
         
         self.search_entry = ttk.Entry(self, textvariable=self.search_value)
         self.search_entry.grid(row=0, column=0, sticky="NESW", padx=(5,5), pady=(5,5))
-        self.search_entry.focus()        
+        self.search_entry.focus()
         
         #search button
         self.search_button = ttk.Button(
                     self,
                     text="Run search",
-                    command=self.search_entered,
+                    command=self.get_results,
                     cursor="hand2"
                 )
         
@@ -34,29 +36,20 @@ class SearchScreen(ttk.Frame):
         ttk.Separator(self, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5)) 
         
         #canvas
-        self.results_frame = SearchResults(self)
-        self.results_frame.grid(columnspan=2, row=2, column=0, sticky="NSEW")
+        self.results_frame_main = SearchResults(self)
+        self.results_frame_main.grid(columnspan=2, row=2, column=0, sticky="NSEW")
         
-        '''
-        self.canvas = tk.Canvas(self)
-        self.scrollable_frame = ttk.Frame(self.canvas)
-        
-        self.scrollable_window = self.canvas.create_window((0,0), window=self.scrollable_frame, anchor="nw")
-        
-        def configure_scroll_region(event):
-            self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-            
-        self.scrollable_frame.bind("<Configure>", configure_scroll_region)
-        
-        self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
-        
-        self.scrollbar.grid(row=2, column=2, sticky="NS")
-        self.canvas.grid(columnspan=2, row=2, column=0, sticky="NSEW")
-        '''
-        #bind enter
-        #controller.bind("<Return>", self.exit)
-        #controller.bind("<KP_Enter>", self.exit)
     
-    def search_entered(self):
-        print(self.search_value.get())   
+    def get_results(self):
+        #print(self.search_value.get()) 
+        self.clear()
+        self.results_frame_main.update_message_widgets(self.show_entry, self.search_value)
+        self.after(15, lambda: self.results_frame_main.yview_moveto(0.0))
+       
+    
+    def clear(self):
+        list = self.results_frame_main.results_frame.grid_slaves()
+        for l in list:
+            l.destroy()
+            
+    

@@ -3,7 +3,7 @@ from tkinter import ttk
 import argus
 
 class Mainscreen(ttk.Frame):
-    def __init__(self, parent, controller, show_searchscreen, show_addscreen, show_entry):
+    def __init__(self, parent, controller, show_searchscreen, show_add_entry, show_entry):
         super().__init__(parent)
         
         self.controller = controller
@@ -38,7 +38,7 @@ class Mainscreen(ttk.Frame):
         self.add_entry_button = ttk.Button(
                     self,
                     text="Add entry",
-                    command=show_addscreen,
+                    command=show_add_entry,
                     cursor="hand2"
                 )
         

@@ -4,8 +4,11 @@ import argus
 
 
 class SearchResults(tk.Canvas):
-    def __init__(self, container, *args, **kwargs):
+    def __init__(self, container, controller, show_entry, *args, **kwargs):
         super().__init__(container, *args, **kwargs, highlightthickness=0)
+        
+        self.show_entry_function = show_entry
+        self.controller = controller
         
         self.results_frame = ttk.Frame(container)
         self.results_frame.columnconfigure(0, weight=1)
@@ -32,14 +35,14 @@ class SearchResults(tk.Canvas):
         self.yview_scroll(-int(event.delta/120), "units")    
         
         
-    def update_message_widgets(self, show_entry, search_value):
+    def update_message_widgets(self, search_value):
         
         banana = argus.WSearch()
         results = banana.index_search(search_value.get())
         
         for entry in results:
             print(f"Found in the file:{entry}")
-            self._create_search_container(entry, show_entry)
+            self._create_search_container(entry)
         
         if len(results) <= 1:
             result_label = tk.Label(
@@ -49,20 +52,20 @@ class SearchResults(tk.Canvas):
     
             result_label.grid(columnspan=2, row=0, column=0, sticky="EW",)
     
-    def _create_search_container(self, entry, show_entry):
+    def _create_search_container(self, entry):
         container = ttk.Frame(self.results_frame)
         container.columnconfigure(2, weight=1)
         container.grid(sticky="EW", padx=(10, 50), pady=10)
     
-        self._create_result_bubble(container, entry, show_entry)
+        self._create_result_bubble(container, entry)
         
-    def _create_result_bubble(self, container, entry, show_entry):
+    def _create_result_bubble(self, container, entry):
 
         #search button
         self.search_button = ttk.Button(
                     container,
                     text="Inspect the file",
-                    command=show_entry,
+                    command=lambda: self._open_search_frame(entry),
                     cursor="hand2"
                 )
         
@@ -79,4 +82,13 @@ class SearchResults(tk.Canvas):
         result_label.grid(row=0, column=2)
         
         #separator
-        ttk.Separator(container, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5))         
+        ttk.Separator(container, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5))      
+        
+    def _open_search_frame(self, entry_file_name):
+        
+        #set working entry file
+        self.controller.view_entry.entry_filename.set(entry_file_name)
+        #fill the text widget
+        self.controller.view_entry.populate_from_file() 
+        #show edit entry view
+        self.show_entry_function()

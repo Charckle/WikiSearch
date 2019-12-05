@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from frames import Mainscreen, AddEntry, SearchScreen, SearchResults, ViewEntry
+from frames import Mainscreen, NewEntry, SearchScreen, SearchResults, ViewEntry
 
 
 class HDSearch(tk.Tk):
@@ -22,22 +22,22 @@ class HDSearch(tk.Tk):
         
         self.frames = dict()
         
-        mainscreen_frame = Mainscreen(container, self, lambda: self.show_frame(SearchScreen), lambda: self.show_frame(AddEntry), lambda: self.show_frame(ViewEntry))
-        addentry_frame = AddEntry(container, self)
-        searchscreen_frame = SearchScreen(container, self, lambda: self.show_frame(ViewEntry))
-        view_entry = ViewEntry(container, self)
+        self.mainscreen_frame = Mainscreen(container, self, lambda: self.show_frame(SearchScreen), lambda: self.show_frame(NewEntry), lambda: self.show_frame(ViewEntry))
+        self.searchscreen_frame = SearchScreen(container, self, lambda: self.show_frame(ViewEntry))
+        self.view_entry = ViewEntry(container, self)
+        self.add_entry = NewEntry(container, self, lambda: self.show_frame(ViewEntry))
         
         ttk.Separator(container, orient="vertical").grid(row=0, column=1, sticky="ns", padx=(5,5), pady=(5,5))
         
-        addentry_frame.grid(row=0, column=0, sticky="NESW")
-        mainscreen_frame.grid(row=0, column=2, sticky="NESW")
-        searchscreen_frame.grid(row=0, column=0, sticky="NESW")
-        view_entry.grid(row=0, column=0, sticky="NESW")
+        self.mainscreen_frame.grid(row=0, column=2, sticky="NESW")
+        self.searchscreen_frame.grid(row=0, column=0, sticky="NESW")
+        self.view_entry.grid(row=0, column=0, sticky="NESW")
+        self.add_entry.grid(row=0, column=0, sticky="NESW")
     
-        self.frames[Mainscreen] = mainscreen_frame
-        self.frames[AddEntry] = addentry_frame
-        self.frames[SearchScreen] = searchscreen_frame
-        self.frames[ViewEntry] = view_entry
+        self.frames[Mainscreen] = self.mainscreen_frame
+        self.frames[SearchScreen] = self.searchscreen_frame
+        self.frames[ViewEntry] = self.view_entry
+        self.frames[NewEntry] = self.add_entry
     
         self.show_frame(SearchScreen)        
 

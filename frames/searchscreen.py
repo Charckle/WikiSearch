@@ -18,11 +18,17 @@ class SearchScreen(ttk.Frame):
         #entry search
         self.search_value = tk.StringVar() 
         
-        self.search_entry = ttk.Entry(self, textvariable=self.search_value)
+        self.search_entry = ttk.Entry(
+            self,
+            textvariable=self.search_value
+        )
+        self.search_entry.bind("<KeyRelease>", self.get_results)
+        
         self.search_entry.grid(row=0, column=0, sticky="NESW", padx=(5,5), pady=(5,5))
         self.search_entry.focus()
         
         #search button
+        '''
         self.search_button = ttk.Button(
                     self,
                     text="Run search",
@@ -31,19 +37,20 @@ class SearchScreen(ttk.Frame):
                 )
         
         self.search_button.grid(columnspan=2, row=0, column=1, sticky="NESW", padx=(5,5), pady=(5,5))
+        '''
         
         #separator
         ttk.Separator(self, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5)) 
         
         #canvas
-        self.results_frame_main = SearchResults(self)
+        self.results_frame_main = SearchResults(self, self.controller, self.show_entry)
         self.results_frame_main.grid(columnspan=2, row=2, column=0, sticky="NSEW")
         
     
-    def get_results(self):
+    def get_results(self, event):
         #print(self.search_value.get()) 
         self.clear()
-        self.results_frame_main.update_message_widgets(self.show_entry, self.search_value)
+        self.results_frame_main.update_message_widgets(self.search_value)
         self.after(15, lambda: self.results_frame_main.yview_moveto(0.0))
        
     

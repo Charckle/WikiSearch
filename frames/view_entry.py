@@ -14,7 +14,8 @@ class ViewEntry(ttk.Frame):
      
         #variables
         self.entry_filename= tk.StringVar()
-        self.entry_filename.set("data//bananaaassa.txt")
+        self.entry_filename.set("")
+        #self.entry_filename.set(self.controller.selected_entry_filename)
         self.data = tk.StringVar()
         
         #entry text  
@@ -38,9 +39,15 @@ class ViewEntry(ttk.Frame):
     
 
     def populate_from_file(self):
+        #make the text widget editable
+        self.entry_text["state"] = "normal"          
+        #delete text widget content
+        self.entry_text.delete('1.0', tk.END)
+        print(self.entry_filename.get())
         try:
             with open(f'{self.entry_filename.get()}', 'r') as file:
                 self.data.set(file.read())
+                print(self.entry_filename.get())
         except:
             self.data.set("No file selected")
         
@@ -53,7 +60,6 @@ class ViewEntry(ttk.Frame):
         with open(f'{self.entry_filename.get()}', 'w') as file:
             file.write(self.entry_text.get("1.0",tk.END))    
     
-        self.entry_text["state"] = "disable"
         
         self.view_mode()
         
@@ -88,8 +94,6 @@ class ViewEntry(ttk.Frame):
     def view_mode(self):
         self.clear()
         
-        #cancel made changes
-        self.entry_text.delete('1.0', tk.END)
         self.populate_from_file()
         
         #Edit button

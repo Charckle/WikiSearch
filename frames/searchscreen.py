@@ -3,13 +3,11 @@ from tkinter import ttk
 from frames.results_window import SearchResults
 
 class SearchScreen(ttk.Frame):
-    def __init__(self, parent, controller, show_viewentry):
+    def __init__(self, parent, controller):
         super().__init__(parent)
         
         self.controller = controller
-        
-        self.show_entry = show_viewentry
-        
+                
         #grid stuff
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=0)
@@ -43,7 +41,7 @@ class SearchScreen(ttk.Frame):
         ttk.Separator(self, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5)) 
         
         #canvas
-        self.results_frame_main = SearchResults(self, self.controller, self.show_entry)
+        self.results_frame_main = SearchResults(self, self.controller)
         self.results_frame_main.grid(columnspan=2, row=2, column=0, sticky="NSEW")
         
     

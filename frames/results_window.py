@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 import argus
+import webbrowser
 
 
 class SearchResults(tk.Canvas):
-    def __init__(self, container, controller, show_entry, *args, **kwargs):
+    def __init__(self, container, controller, *args, **kwargs):
         super().__init__(container, *args, **kwargs, highlightthickness=0)
         
-        self.show_entry_function = show_entry
         self.controller = controller
         
         self.results_frame = ttk.Frame(container)
@@ -64,8 +64,8 @@ class SearchResults(tk.Canvas):
         #search button
         self.search_button = ttk.Button(
                     container,
-                    text="Inspect the file",
-                    command=lambda: self._open_search_frame(entry),
+                    text="Open in browser",
+                    command=lambda: self._open_webpage(entry),
                     cursor="hand2"
                 )
         
@@ -84,11 +84,7 @@ class SearchResults(tk.Canvas):
         #separator
         ttk.Separator(container, orient="horizontal").grid(columnspan=3, row=1, column=0, sticky="EW", padx=(5,5), pady=(5,5))      
         
-    def _open_search_frame(self, entry_file_name):
+    def _open_webpage(self, web_page):
         
-        #set working entry file
-        self.controller.view_entry.entry_filename.set(entry_file_name)
-        #fill the text widget
-        self.controller.view_entry.populate_from_file() 
-        #show edit entry view
-        self.show_entry_function()
+        #open webrowser
+        webbrowser.open(web_page, new=0, autoraise=True)

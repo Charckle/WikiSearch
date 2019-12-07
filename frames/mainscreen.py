@@ -3,7 +3,7 @@ from tkinter import ttk
 import argus
 
 class Mainscreen(ttk.Frame):
-    def __init__(self, parent, controller, show_searchscreen, show_add_entry, show_entry):
+    def __init__(self, parent, controller, show_searchscreen):
         super().__init__(parent)
         
         self.controller = controller
@@ -21,28 +21,6 @@ class Mainscreen(ttk.Frame):
         #separator
         ttk.Separator(self, orient="horizontal").pack(side="bottom", fill ="x", padx=5, pady=5)
         
-        #show entry button
-        self.quit_button = ttk.Button(
-                    self,
-                    text="Show entry",
-                    command=show_entry,
-                    cursor="hand2"
-                )
-        
-        self.quit_button.pack(side="top")             
-        
-        #separator
-        ttk.Separator(self, orient="horizontal").pack(side="top", fill ="x", padx=3, pady=3)        
-        
-        #add entry
-        self.add_entry_button = ttk.Button(
-                    self,
-                    text="Add entry",
-                    command=show_add_entry,
-                    cursor="hand2"
-                )
-        
-        self.add_entry_button.pack(side="top")           
 
         #quit button
         self.quit_button = ttk.Button(
@@ -70,6 +48,8 @@ class Mainscreen(ttk.Frame):
            
     
     def index_create(self):
+        
+        print("Making the freaking index. This is gonna take some time, brace yourself!") 
         new_index = argus.WSearch()
-        new_index.index_create()
+        new_index.index_create_from_wiki("https://wiki.razor.si")
         print("Index created.") 
